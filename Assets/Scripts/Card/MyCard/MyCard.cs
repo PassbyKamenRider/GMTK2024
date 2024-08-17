@@ -16,11 +16,21 @@ public class MyCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i <10;i++)
+        for (int i = 0; i <10; i++)
         {
-            int card_number = Random.Range(0, 3);
+            int card_number = Random.Range(0, CardDatabase.cardList.Count);
             MyCardPool.Add(CardDatabase.cardList[card_number]);
         }
+    }
+
+    public void addCard(Card newCard)
+    {
+        MyCardPool.Add(newCard);
+    }
+
+    public void deleteCard(Card cardToDelete)
+    {
+        MyCardPool.Remove(cardToDelete);
     }
 
 }

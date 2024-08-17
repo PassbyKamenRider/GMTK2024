@@ -6,7 +6,6 @@ using TMPro;
 
 public class CardInfo : MonoBehaviour
 {
-    public int id = 0;
     public int cardType = 0; //0: scale; 1:move; 2:build
     public int x_value = 0; // scale to x%; move to x; create x-time platform
     public string cardDescription = "";
