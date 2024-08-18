@@ -202,7 +202,62 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &902675527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 902675529}
+  - component: {fileID: 902675528}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &902675528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902675527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbce22f520ac5dc47b96433004caa48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapY: 10
+  MapX: 5
+  MapWidth: 50
+  NodeyPadding: 10
+  PoIprefabs:
+  - {fileID: 4026959837289522471, guid: b397c2582c285a8458192e2543ca069a, type: 3}
+  - {fileID: 175396002567069817, guid: bd6444b3ee1872646b2feb3675fd8b75, type: 3}
+  - {fileID: 2315419706291187280, guid: aeb9c90670010e34fbdc28885ff2bc5c, type: 3}
+  pathPrefab: {fileID: 6994698745097829449, guid: 903f5019fca53cd4396ebc97d3d94b08, type: 3}
+  NStartingPoints: 3
+--- !u!4 &902675529
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902675527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
