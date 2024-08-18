@@ -5,11 +5,13 @@ using UnityEngine;
 public class randomCard : MonoBehaviour
 {
     public GameObject[] cardsObj;
-    Card[] cards = new Card[3];
+    Card[] cards;
     public void generateRandomCard()
     {
         this.gameObject.SetActive(true);
-        for(int i = 0; i<3; i++)
+
+        cards = new Card[3];
+        for (int i = 0; i<3; i++)
         {
             int card_type = Random.Range(0, CardDatabase.cardType);
             Card new_card = new Card(card_type);
@@ -27,18 +29,5 @@ public class randomCard : MonoBehaviour
     public void DisablePanel()
     {
         this.gameObject.SetActive(false);
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
