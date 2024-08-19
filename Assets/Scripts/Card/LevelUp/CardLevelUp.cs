@@ -21,6 +21,7 @@ public class CardLevelUp : MonoBehaviour
     public GameObject SelectedCard;
     int selected_cardID = 0;
     int new_xValue = 0;
+    int new_level = 1;
 
     public static CardLevelUp instance;
 
@@ -33,29 +34,36 @@ public class CardLevelUp : MonoBehaviour
     public void DisplayLevelCard(int id, int card_type)
     {
         selected_cardID = id;
+        new_level = MyCard.instance.MyCardPool[id].cardLevel + 1;
+        int old_xValue = MyCard.instance.MyCardPool[id].x_value;
 
-        SelectedCard.transform.Find("Before_x").GetComponent<TextMeshProUGUI>().text = MyCard.instance.MyCardPool[id].x_value.ToString();
+        TextMeshProUGUI text = SelectedCard.transform.Find("xValue").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI level_text = SelectedCard.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        level_text.text = new_level.ToString();
 
         if (card_type == 0)//scale card
         {
-            new_xValue = MyCard.instance.MyCardPool[id].x_value + s_addedValue;
+            new_xValue = old_xValue + s_addedValue;
+            text.text = $"Scale the size of platform by <color=red>{old_xValue}<size=15>¡ú</size>{new_xValue} </color> percents";
         }
         else if (card_type == 1)//move card
         {
-            new_xValue = MyCard.instance.MyCardPool[id].x_value + m_addedValue;
+            new_xValue = old_xValue + m_addedValue;
+            text.text = $"Move the platform in a range of <color=red>{old_xValue}<size=15>¡ú</size>{new_xValue}</color>";
         }
         else if (card_type == 2)//build card
         {
-            new_xValue =  MyCard.instance.MyCardPool[id].x_value + b_addedValue;
+            new_xValue = old_xValue + b_addedValue;
+            text.text = $"Create a <color=red>{old_xValue}<size=15>¡ú</size>{new_xValue}</color>x platform at a designed position";
         }
-
-        SelectedCard.transform.Find("After_x").GetComponent<TextMeshProUGUI>().text = new_xValue.ToString();
+        
         SelectedCard.GetComponent<Image>().sprite = MyCard.instance.MyCardPool[id].cardSprite;
     }
 
     public void ComfirmLevelUp()
     {
         MyCard.instance.MyCardPool[selected_cardID].x_value = new_xValue;
+        MyCard.instance.MyCardPool[selected_cardID].cardLevel = new_level;
         this.gameObject.SetActive(false);
     }
 

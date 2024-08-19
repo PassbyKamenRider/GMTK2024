@@ -20,7 +20,9 @@ public class MyCard : MonoBehaviour
         for (int i = 0; i <10; i++)
         {
             int card_number = Random.Range(0, CardDatabase.cardList.Count);
-            MyCardPool.Add(CardDatabase.cardList[card_number]);
+            Card cardFromDB = CardDatabase.cardList[card_number];
+            Card newCard = new Card(cardFromDB.cardType, cardFromDB.x_value);
+            MyCardPool.Add(newCard);
         }
     }
 

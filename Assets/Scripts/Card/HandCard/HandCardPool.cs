@@ -6,9 +6,14 @@ using TMPro;
 public class HandCardPool : MonoBehaviour
 {
     public List<Card> TotalCardPool = new List<Card>(); //all cards from my cards
-    public List<GameObject> unusedCardPool = new List<GameObject>();////discarded deck
-    public List<GameObject> handCardPool = new List<GameObject>();//hand card pool
-    public List<GameObject> usedCardPool = new List<GameObject>();//used card pool
+    /* public List<GameObject> unusedCardPool = new List<GameObject>();////discarded deck
+     public List<GameObject> handCardPool = new List<GameObject>();//hand card pool
+     public List<GameObject> usedCardPool = new List<GameObject>();//used card pool*/
+    public List<GameObject> CardPoolObj = new List<GameObject>();
+    public List<int> unusedCardPool = new List<int>();//discarded deck
+    public List<int> handCardPool = new List<int>();//hand card pool
+    public List<int> usedCardPool = new List<int>();//used card pool*/
+
 
     public GameObject CardPool_Content;//discarded deck content
     public GameObject handCardArea;
@@ -57,17 +62,17 @@ public class HandCardPool : MonoBehaviour
 
     public void InitHandCardPool()
     {
+        int cardCount = 0;
         TotalCardPool = MyCard.instance.MyCardPool;
 
         
         foreach (Card iCard in MyCard.instance.MyCardPool)
         {
-            GameObject GenerateCard = Instantiate(handcardObj, cardPool.transform);
-            GenerateCard.GetComponent<CardInfo>().SetCardInfo(iCard);
-            GenerateCard.transform.SetParent(cardPool.transform);
-            GenerateCard.transform.localPosition = new Vector3(0,0,0);
+            GameObject GenerateCard = HorizontalCardHolder.instance.GenerateCard(iCard, cardCount);
 
-            unusedCardPool.Add(GenerateCard);
+            CardPoolObj.Add(GenerateCard);
+            unusedCardPool.Add(cardCount);
+            cardCount = cardCount + 1;
         }
 
 
@@ -111,13 +116,11 @@ public class HandCardPool : MonoBehaviour
         for (int i = 0; i < CardPool_Content.transform.childCount; i++)
         {
             transform = CardPool_Content.transform.GetChild(i);
-            GameObject cardObj = transform.gameObject;
-            cardObj.transform.SetParent(cardPool.transform);
-            cardObj.transform.localPosition = new Vector3(0, 0, 0);
+            GameObject.Destroy(transform.gameObject);
         }
     }
 
-    public void DisplayCards(List<GameObject> cardList)
+    public void DisplayCards(List<int> cardList)
     {
         int count = 0;
         GameObject newRow = null;
@@ -127,14 +130,15 @@ public class HandCardPool : MonoBehaviour
             CardPool_Content.GetComponent<RectTransform>().sizeDelta = new Vector2(CardPool_Content.GetComponent<RectTransform>().rect.width, y_space * ((MyCard.instance.MyCardPool.Count - 1) / 6 + 1));
 
         //generate my cards
-        foreach (GameObject iCard in cardList)
+        foreach (int index in cardList)
         {
             if (count % numPerRow == 0)
             {
                 newRow = Instantiate(cardRow, CardPool_Content.transform);
             }
-            iCard.transform.SetParent(newRow.transform);
-            iCard.transform.localPosition = new Vector3(x_pos + (count % numPerRow) * x_space, y_pos, 0);
+            GameObject GenerateCard = Instantiate(handcardObj, newRow.transform);
+            GenerateCard.GetComponent<CardInfo>().SetCardInfo(TotalCardPool[index]);
+            GenerateCard.transform.localPosition = new Vector3(x_pos + (count % numPerRow) * x_space, y_pos, 0);
 
             count = count + 1;
         }
@@ -143,23 +147,31 @@ public class HandCardPool : MonoBehaviour
     public void DealCards(int cardNum)
     {
         int maxNum = cardNum;
-        if (maxNum > unusedCardPool.Count) maxNum = unusedCardPool.Count;
+        if (maxNum > unusedCardPool.Count)
+        {
+            foreach (int index in usedCardPool)
+            {
+                unusedCardPool.Add(index);
+            }
+            usedCardPool.Clear();
+        }
         for (int i = 0; i < maxNum; i++)
         {
             int rd = Random.Range(0, unusedCardPool.Count);
-            GameObject newCard = unusedCardPool[rd];
-            newCard.transform.SetParent(handCardArea.transform);
+            int index = unusedCardPool[rd];
+            GameObject newCard = CardPoolObj[index];
+            newCard.transform.Find("HandCard").GetComponent<DragHandler>().enableCard(true);
             unusedCardPool.RemoveAt(rd);
-            handCardPool.Add(newCard);
+            handCardPool.Add(index);
         }
 
         currentCardNum = maxNum;
 
         if (unusedCardPool.Count == 0)
         {
-            foreach(GameObject c in usedCardPool)
+            foreach(int index in usedCardPool)
             {
-                unusedCardPool.Add(c);
+                unusedCardPool.Add(index);
             }
             usedCardPool.Clear();
         }
@@ -170,13 +182,15 @@ public class HandCardPool : MonoBehaviour
     }
 
 
-    public void useCard(GameObject cardObj)
+    public void useCard(int card_id)
     {
-        cardObj.transform.SetParent(cardPool.transform);
-        cardObj.transform.localPosition = new Vector3(0, 0, 0);
+        Transform card = CardPoolObj[card_id].transform.Find("HandCard");
+        card.GetComponent<DragHandler>().enableCard(false);
+        card.transform.position = new Vector3(0, 0, 0);
+        card.GetComponent<DragHandler>().cardVisual.transform.position = new Vector3(0, 0, 0);
 
-        handCardPool.Remove(cardObj);
-        usedCardPool.Add(cardObj);
+        handCardPool.Remove(card_id);
+        usedCardPool.Add(card_id);
 
         usedCardNum_Text.text = usedCardPool.Count.ToString();
 
@@ -185,17 +199,15 @@ public class HandCardPool : MonoBehaviour
 
 
     //discard card and draw new card
-    public void discardCard(GameObject cardObj)
+    public void discardCard(int card_id)
     {
-        cardObj.transform.SetParent(cardPool.transform);
-        cardObj.transform.localPosition = new Vector3(0, 0, 0);
+        CardPoolObj[card_id].GetComponentInChildren<DragHandler>().enableCard(false);
+        handCardPool.Remove(card_id);
 
-        handCardPool.Remove(cardObj);
-        foreach (GameObject c in handCardPool)
+        foreach (int index in handCardPool)
         {
-            c.transform.SetParent(cardPool.transform);
-            c.transform.localPosition = new Vector3(0, 0, 0);
-            usedCardPool.Add(c);
+            CardPoolObj[index].GetComponentInChildren<DragHandler>().enableCard(false);
+            usedCardPool.Add(index);
         }
         handCardPool.Clear();
 

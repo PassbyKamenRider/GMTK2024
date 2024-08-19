@@ -15,7 +15,7 @@ public class randomCard : MonoBehaviour
         {
             int card_type = Random.Range(0, CardDatabase.cardType);
             Card new_card = new Card(card_type);
-
+            Debug.Log(new_card.cardSprite.name);
             cardsObj[i].GetComponent<randomCardInfo>().SetCardInfo(new_card);
             cards[i] = new_card;
         }

@@ -1,88 +1,118 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler
+public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDragHandler, IPointerEnterHandler,IPointerExitHandler
 {
+    public int card_id;
+
+    private VisualCardsHandler visualHandler;
+    private Vector3 offset;
+
     public Vector3 originalPos;
     public Vector3 originalScale;
     public bool onDragFlag = false;
     public bool onAnim = false;
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        onDragFlag = true;
-        this.transform.position = eventData.position;
-    }
+    [Header("Events")]
+    [HideInInspector] public UnityEvent<DragHandler> PointerEnterEvent;
+    [HideInInspector] public UnityEvent<DragHandler> PointerExitEvent;
+    [HideInInspector] public UnityEvent<DragHandler, bool> PointerUpEvent;
+    [HideInInspector] public UnityEvent<DragHandler> PointerDownEvent;
+    [HideInInspector] public UnityEvent<DragHandler> BeginDragEvent;
+    [HideInInspector] public UnityEvent<DragHandler> EndDragEvent;
+    [HideInInspector] public UnityEvent<DragHandler, bool> SelectEvent;
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (this.transform.position.y > 290)
-        {
-            //use card
-            HandCardPool.instance.useCard(this.gameObject);
-        }
-        else if (this.transform.position.y <10)
-        {
-            HandCardPool.instance.discardCard(this.gameObject);
-        }
-        else
-        {
-            onDragFlag = true;
-            this.gameObject.SetActive(false);
-            this.gameObject.SetActive(true);
-            this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + 150, this.gameObject.transform.position.z);
-           // this.transform.localScale = originalScale;
-        }
-    }
+    [Header("Visual")]
+    [SerializeField] private GameObject cardVisualPrefab;
+    public HandCardVisual cardVisual;
 
-   /* public void OnPointerEnter(PointerEventData eventData)
-    {
-       // Debug.Log(eventData.position.y);
-        if (eventData.position.y > 30) StartCoroutine(EnlargeCard());
-    }*/
+    [Header("States")]
+    public bool isHovering;
+    public bool isDragging;
+    [HideInInspector] public bool wasDragged;
 
-    IEnumerator EnlargeCard()
-    {
-            for (int i = 0; i < 10; i++)
-            {
-                this.transform.localScale = new Vector3(this.transform.localScale.x + 0.02f, this.transform.localScale.y + 0.02f, this.transform.localScale.z);
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 5f, this.transform.position.z);
-                yield return new WaitForSeconds(0.01f);
-            }
-        
-    }
-
-  /*  public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!onDragFlag && eventData.position.y > 30)
-            StartCoroutine(ShrinkCard());
-
-        onDragFlag = false;
-    }*/
-
-    IEnumerator ShrinkCard()
-    {
-            for (int i = 0; i < 10; i++)
-            {
-            this.transform.localScale = new Vector3(this.transform.localScale.x + 0.02f, this.transform.localScale.y + 0.02f, this.transform.localScale.z);
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 5f, this.transform.position.z);
-                // this.transform.localScale = new Vector3(this.transform.localScale.x - 0.05f, this.transform.localScale.y - 0.05f, this.transform.localScale.z);
-                yield return new WaitForSeconds(0.01f);
-            }
-    }
+    [Header("Selection")]
+    public bool selected;
+    public float selectionOffset = 50;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        originalPos = this.transform.position;
-        originalScale = this.transform.localScale;
+        visualHandler = FindObjectOfType<VisualCardsHandler>();
+        cardVisual = Instantiate(cardVisualPrefab, visualHandler.transform).GetComponent<HandCardVisual>();
+        cardVisual.Initialize(this);
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        BeginDragEvent.Invoke(this);
+        offset = (Vector3)eventData.position - this.transform.position;
+        isDragging = true;
+        wasDragged = true;
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        this.transform.position = (Vector3)eventData.position - offset;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        EndDragEvent.Invoke(this);
+        isDragging = false;
+        //  canvas.GetComponent<GraphicRaycaster>().enabled = true;
+        //  imageComponent.raycastTarget = true;
+
+        StartCoroutine(FrameWait());
+
+        IEnumerator FrameWait()
+        {
+            yield return new WaitForEndOfFrame();
+            wasDragged = false;
+        }
+        if (this.transform.position.y > 290)
+        {
+            //use card
+            HandCardPool.instance.useCard(card_id);
+        }
+        else if (this.transform.position.y <10)
+        {
+            HandCardPool.instance.discardCard(card_id);
+        }
+    }
+
+
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+
+        PointerEnterEvent.Invoke(this);
+        isHovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        PointerExitEvent.Invoke(this);
+        isHovering = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (cardVisual != null)
+            Destroy(cardVisual.gameObject);
+    }
+
+    public void enableCard(bool flag)
+    {
+       cardVisual.gameObject.SetActive(flag);
+       transform.parent.gameObject.SetActive(flag);
     }
 
 }
