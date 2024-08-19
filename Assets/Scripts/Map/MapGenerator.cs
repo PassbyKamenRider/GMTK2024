@@ -21,6 +21,17 @@ public class MapGenerator : MonoBehaviour
     private GameObject[][] PoIs;
 
     private void Start() {
+        // load seed
+        if (Globals.seed == -1)
+        {
+            GenerateRandomSeed();
+        }
+        else
+        {
+            // load seed
+            Random.InitState(Globals.seed);
+        }
+
         PoIs = new GameObject[MapY][];
         for (int i = 0; i < PoIs.Length; i++)
         {
@@ -40,8 +51,38 @@ public class MapGenerator : MonoBehaviour
 
         foreach (int startPoint in startPoints)
         {
-            InitializePoI(0, startPoint);
+            GameObject startNode =  InitializePoI(0, startPoint);
+            if (!Globals.isGenerated) Globals.nextPoIs.Add(new Vector2(startPoint, 0));
         }
+
+        // Generate end node and lines
+        float xSize = MapWidth / MapX;
+        float xPos = (xSize * MapX / 2 - 1) + (xSize / 2f);
+        float yPos = NodeyPadding * MapY;
+        GameObject end = Instantiate(PoIprefabs[0], new Vector3(xPos, yPos, 0), Quaternion.identity, nodeParent);
+
+        for (int i = 0; i < MapX; i++)
+        {
+            if (PoIs[MapY-1][i] != null)
+            {
+                DrawLineBetween(PoIs[MapY-1][i], end);
+            }
+        }
+
+        Globals.isGenerated = true;
+
+        // load path
+        foreach(Vector2 pastNode in Globals.path)
+        {
+            PoIs[(int)pastNode.x][(int)pastNode.y].GetComponent<NodeHover>().Ring.SetActive(true);
+        }
+    }
+
+    private void GenerateRandomSeed()
+    {
+        int tempSeed = (int)System.DateTime.Now.Ticks;
+        Random.InitState(tempSeed);
+        Globals.seed = tempSeed;
     }
 
     private GameObject InitializePoI(int y, int x)
@@ -80,6 +121,8 @@ public class MapGenerator : MonoBehaviour
 
         GameObject instance = Instantiate(randomPOI, pos, Quaternion.identity, nodeParent);
         PoIs[y][x] = instance;
+        instance.GetComponent<PoI>().x = x;
+        instance.GetComponent<PoI>().y = y;
 
         while (!created && y < MapY - 1)
         {
@@ -89,6 +132,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     GameObject nextPOI = InitializePoI(y + 1, x - 1);
                     DrawLineBetween(instance, nextPOI);
+                    // save connections
+                    instance.GetComponent<PoI>().nextPoIs.Add(new Vector2(x-1, y+1));
                     created = true;
                 }
             }
@@ -99,6 +144,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     GameObject nextPOI = InitializePoI(y + 1, x + 1);
                     DrawLineBetween(instance, nextPOI);
+                    // save connections
+                    instance.GetComponent<PoI>().nextPoIs.Add(new Vector2(x+1, y+1));
                     created = true;
                 }
             }
@@ -107,6 +154,8 @@ public class MapGenerator : MonoBehaviour
             {
                 GameObject nextPOI = InitializePoI(y + 1, x);
                 DrawLineBetween(instance, nextPOI);
+                // save connections
+                instance.GetComponent<PoI>().nextPoIs.Add(new Vector2(x, y+1));
                 created = true;
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIcontroller : MonoBehaviour
 {
@@ -11,11 +12,23 @@ public class UIcontroller : MonoBehaviour
     [SerializeField] private Image[] volumeBars;
     [SerializeField] private Sprite fullBar;
     [SerializeField] private Sprite emptyBar;
-    private int volume = 10;
 
     [Header("Things To Be Disabled When Paused")]
     [SerializeField] private CameraDrag cameraDrag;
     [SerializeField] private Button deckButton;
+
+    [Header("Up Menu Settings")]
+    [SerializeField] TextMeshProUGUI starwberryCount;
+
+    private void Start() {
+        UpdateStarwberryCount();
+        UpdateVolumeDisplay();
+    }
+
+    public void UpdateStarwberryCount()
+    {
+        starwberryCount.text = Globals.StarwberryCount.ToString();
+    }
 
     public void SwitchPauseMenu()
     {
@@ -31,12 +44,12 @@ public class UIcontroller : MonoBehaviour
         if (isAdd)
         {
             AudioListener.volume = Mathf.Clamp(AudioListener.volume + 0.1f, 0, 1.0f);
-            volume = Mathf.Clamp(volume + 1, 0, 10);
+            Globals.volume = Mathf.Clamp(Globals.volume + 1, 0, 10);
         }
         else
         {
             AudioListener.volume = Mathf.Clamp(AudioListener.volume - 0.1f, 0, 1.0f);
-            volume = Mathf.Clamp(volume - 1, 0, 10);
+            Globals.volume = Mathf.Clamp(Globals.volume - 1, 0, 10);
         }
         UpdateVolumeDisplay();
     }
@@ -45,7 +58,7 @@ public class UIcontroller : MonoBehaviour
     {
         for (int i = 0; i < volumeBars.Length; i++)
         {
-            if (i < volume)
+            if (i < Globals.volume)
             {
                 volumeBars[i].sprite = fullBar;
             }
@@ -58,6 +71,7 @@ public class UIcontroller : MonoBehaviour
 
     public void ReturnToMain()
     {
+        SwitchPauseMenu();
         SceneManager.LoadScene("Main Menu");
     }
 }

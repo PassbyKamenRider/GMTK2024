@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Physics and Animation")]
-    private static PlayerController instance;
+    // private static PlayerController instance;
     [SerializeField] private Rigidbody2D playerRb;
 
     [Header("Player Horizontal Movement")]
@@ -23,16 +23,16 @@ public class PlayerController : MonoBehaviour
     [Header("Player Audio")]
     [SerializeField] private AudioSource jumpAudio;
 
-    private void Awake() {
-        if(instance && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    // private void Awake() {
+    //     if(instance && instance != this)
+    //     {
+    //         Destroy(gameObject);
+    //         return;
+    //     }
 
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+    //     instance = this;
+    //     DontDestroyOnLoad(gameObject);
+    // }
 
     private void Update()
     {
