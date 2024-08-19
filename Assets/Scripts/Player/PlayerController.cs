@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private bool isWalking = false;
 
+    [Header("Player Audio")]
+    [SerializeField] private AudioSource jumpAudio;
+
     private void Awake() {
         if(instance && instance != this)
         {
@@ -98,10 +101,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
-            //audioPlayer.instance.play_audio_jump();
-            // if (audioPlayer.instance.audio_walk.isPlaying) { 
-            //     audioPlayer.instance.stop_audio_walk();
-            // }
+            jumpAudio.Play();
         }
     }
 
