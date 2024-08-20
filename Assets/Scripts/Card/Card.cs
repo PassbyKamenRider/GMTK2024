@@ -15,7 +15,7 @@ public class Card
         this.cardType = cardType;
         if (cardType == 0)//scale
         {
-            this.x_value = Random.Range(CardDatabase.scaleMin / 10, CardDatabase.scaleMax/10+1)*10;
+            this.x_value = Random.Range(CardDatabase.scaleMin / 50, CardDatabase.scaleMax/50+1)*50;
         }
         else if (cardType == 1)
         {

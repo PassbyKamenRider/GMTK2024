@@ -7,8 +7,8 @@ public class CardDatabase : MonoBehaviour
     public static List<Card> cardList = new List<Card>();
 
     public static int cardType = 3;//0: scale/ 1:move/ 2:build
-    public static int scaleMin = 10; //10%;
-    public static int scaleMax = 200; //200%
+    public static int scaleMin = 50; //10%;
+    public static int scaleMax = 250; //200%
     public static int moveMin = 0;
     public static int moveMax = 5;  //move at most 5 unit
     public static int buildMin = 1;
