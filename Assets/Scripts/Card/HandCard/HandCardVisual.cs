@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class HandCardVisual : MonoBehaviour
 {
+    private Canvas canvas;
     private bool initalize = false;
 
     [Header("Card")]
@@ -28,7 +29,7 @@ public class HandCardVisual : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        canvas = GetComponent<Canvas>();
     }
 
     void Update()
@@ -75,11 +76,13 @@ public class HandCardVisual : MonoBehaviour
     {
         if (scaleAnimations)
             transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
+        canvas.overrideSorting = true;
     }
 
     private void EndDrag(DragHandler card)
     {
         transform.DOScale(1, scaleTransition).SetEase(scaleEase);
+        canvas.overrideSorting = false;
     }
 
 }

@@ -219,7 +219,6 @@ public class HandCardPool : MonoBehaviour
 
     public void displayHandCardArea(bool flag)
     {
-        Debug.Log("here??");
         if (flag)
         {
             transform.DOLocalMoveY(-9, 0.15f);

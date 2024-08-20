@@ -5,7 +5,7 @@ using DG.Tweening;
 using System.Linq;
 public class HorizontalCardHolder : MonoBehaviour
 {
-    [SerializeField] private DragHandler selectedCard;
+    [SerializeField] public DragHandler selectedCard;
     [SerializeReference] private DragHandler hoveredCard;
 
     [SerializeField] private GameObject slotPrefab;
