@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class CardLevelUp : MonoBehaviour
 {
-    int s_addedValue = 1; //scale added value
+    int s_addedValue = 50; //scale added value
     int m_addedValue = 1; //move added value
     int b_addedValue = 1; //build added value
 
