@@ -15,4 +15,7 @@ public static class Globals
     public static List<Vector2> path = new List<Vector2>();
     public static int seed = -1;
     public static bool isGenerated;
+
+    // Platform status related
+    public static bool isScaling;
 }

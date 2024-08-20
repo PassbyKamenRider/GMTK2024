@@ -189,6 +189,26 @@ public class HandCardPool : MonoBehaviour
         card.transform.position = new Vector3(0, 0, 0);
         card.GetComponent<DragHandler>().cardVisual.transform.position = new Vector3(0, 0, 0);
 
+        // Get card type and number for use
+        int usedCardType = card.GetComponent<DragHandler>().cardVisual.transform.GetComponent<CardInfo>().cardType;
+        switch(usedCardType)
+        {
+            case 0:
+            Globals.isScaling = true;
+            Time.timeScale = 0f;
+            FindObjectOfType<VisualCardsHandler>().gameObject.SetActive(false);
+            break;
+
+            case 1:
+            break;
+
+            case 2:
+            break;
+
+            default:
+            break;
+        }
+
         handCardPool.Remove(card_id);
         usedCardPool.Add(card_id);
 
