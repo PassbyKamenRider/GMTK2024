@@ -15,9 +15,11 @@ public class Flag : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player")
         {
+            Time.timeScale = 0f;
+            HandCardPool.instance.gameObject.SetActive(false);
             Globals.StarwberryCount += collectableCount;
             Globals.isCurrentFinished = true;
-            SceneManager.LoadScene("Map");
+            FindObjectOfType<randomCard>(true).gameObject.SetActive(true);
         }
     }
 }

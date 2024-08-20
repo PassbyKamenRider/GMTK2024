@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class randomCardInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -52,6 +53,8 @@ public class randomCardInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         MyCard.instance.addCard(this.transform.parent.GetComponent<randomCard>().getCard(card_id));
         this.transform.parent.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Map");
     }
 
 

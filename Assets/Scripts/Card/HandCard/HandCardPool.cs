@@ -39,6 +39,9 @@ public class HandCardPool : MonoBehaviour
 
     public int currentCardNum = 0;
 
+    [Header("Placeholder for build platforms")]
+    [SerializeField] private GameObject buildPlatformPrefab;
+
     bool displayFlag = false;
     private void Awake()
     {
@@ -209,6 +212,8 @@ public class HandCardPool : MonoBehaviour
             case 2:
             Globals.card_val = usedCardVal;
             Globals.isUsing = 2;
+            GameObject platform = Instantiate(buildPlatformPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+            platform.GetComponent<CreatePlatform>().duration = (int) usedCardVal;
             break;
 
             default:

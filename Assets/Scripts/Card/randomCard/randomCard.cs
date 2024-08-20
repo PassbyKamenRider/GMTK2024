@@ -1,13 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class randomCard : MonoBehaviour
 {
     public GameObject[] cardsObj;
     Card[] cards;
+    private bool hasGenerated;
+
+    private void Start() {
+        generateRandomCard(); 
+    }
+
     public void generateRandomCard()
     {
+        if (hasGenerated)
+        {
+            if (Globals.StarwberryCount == 0)
+            {
+                return;
+            }
+            else
+            {
+                Globals.StarwberryCount -= 1;
+            }
+        }
         this.gameObject.SetActive(true);
 
         cards = new Card[3];
@@ -19,6 +37,8 @@ public class randomCard : MonoBehaviour
             cardsObj[i].GetComponent<randomCardInfo>().SetCardInfo(new_card);
             cards[i] = new_card;
         }
+
+        hasGenerated = true;
     }
 
     public Card getCard(int index)
@@ -29,5 +49,7 @@ public class randomCard : MonoBehaviour
     public void DisablePanel()
     {
         this.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Map");
     }
 }
