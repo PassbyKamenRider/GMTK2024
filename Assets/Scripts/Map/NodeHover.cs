@@ -8,7 +8,7 @@ public class NodeHover : MonoBehaviour
 {
     [SerializeField] private AudioSource audio_confirm;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private int NodeType; // 0: build, 1: event, 2: upgrade
+    [SerializeField] private int NodeType; // 0: build, 1: upgrade
     [SerializeField] private PoI nodeInfo;
     [SerializeField] public GameObject Ring;
     private bool isHovering;
@@ -18,7 +18,7 @@ public class NodeHover : MonoBehaviour
     private void Update() {
         if (!Globals.isPausing && isHovering)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && NodeType == 0)
             {
                 if ((Globals.isCurrentFinished && ContainsNode(Globals.nextPoIs))) // if starting node or choose next node
                 {
@@ -31,15 +31,38 @@ public class NodeHover : MonoBehaviour
 
                     // Start Stage
                     audio_confirm.Play();
-                    Debug.Log("start!");
-                    SceneManager.LoadScene("PlayerTest");
+                    SceneManager.LoadScene("Stage1");
                 }
                 else if (!Globals.isCurrentFinished && Globals.currentY == nodeInfo.y && Globals.currentX == nodeInfo.x) // if current node isn't finished)
                 {
                     // Start Stage
                     audio_confirm.Play();
-                    Debug.Log("start!");
-                    SceneManager.LoadScene("PlayerTest");
+                    SceneManager.LoadScene("Stage1");
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0) && NodeType == 1)
+            {
+                if ((Globals.isCurrentFinished && ContainsNode(Globals.nextPoIs))) // if starting node or choose next node
+                {
+                    // Update current progress
+                    Globals.isCurrentFinished = true;
+                    Globals.path.Add(new Vector2(nodeInfo.y, nodeInfo.x));
+                    Globals.nextPoIs = new List<Vector2>(nodeInfo.nextPoIs);
+                    Globals.currentY = nodeInfo.y;
+                    Globals.currentX = nodeInfo.x;
+
+                    // Open upgrade
+                    Ring.SetActive(true);
+                    audio_confirm.Play();
+                    FindObjectOfType<UIcontroller>().ShowUpgradeMenu();
+                }
+                else if (!Globals.isCurrentFinished && Globals.currentY == nodeInfo.y && Globals.currentX == nodeInfo.x) // if current node isn't finished)
+                {
+                    // Open upgrade
+                    Ring.SetActive(true);
+                    audio_confirm.Play();
+                    FindObjectOfType<UIcontroller>().ShowUpgradeMenu();
                 }
             }
         }

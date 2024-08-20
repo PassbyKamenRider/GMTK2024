@@ -320,7 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio_confirm: {fileID: 1040743643426412881}
   sprite: {fileID: 598911656151327693}
-  NodeType: 2
+  NodeType: 1
   nodeInfo: {fileID: 1672537811484610872}
   Ring: {fileID: 2090826556483985705}
 --- !u!61 &3776629196155700541

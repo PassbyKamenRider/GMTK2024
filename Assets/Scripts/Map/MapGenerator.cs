@@ -10,7 +10,6 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float MapWidth;
     [SerializeField] private float NodeyPadding;
     [SerializeField] private List<GameObject> PoIprefabs;
-    [SerializeField] private List<float> PoIratios;
     [SerializeField] private GameObject pathPrefab;
     [SerializeField] private int NStartingPoints;
 
@@ -106,17 +105,13 @@ public class MapGenerator : MonoBehaviour
         // Randomly choose a node type with weight
         GameObject randomPOI = null;
         float rand = Random.Range(0f, 1f);
-        if (rand < 0.7f)
+        if (rand < 0.8f)
         {
             randomPOI = PoIprefabs[0];
         }
-        else if (rand < 0.85f)
-        {
-            randomPOI = PoIprefabs[1];
-        }
         else
         {
-            randomPOI = PoIprefabs[2];
+            randomPOI = PoIprefabs[1];
         }
 
         GameObject instance = Instantiate(randomPOI, pos, Quaternion.identity, nodeParent);

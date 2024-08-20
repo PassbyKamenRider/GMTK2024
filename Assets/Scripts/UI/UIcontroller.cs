@@ -20,9 +20,18 @@ public class UIcontroller : MonoBehaviour
     [Header("Up Menu Settings")]
     [SerializeField] TextMeshProUGUI starwberryCount;
 
+    [Header("Upgrade Menu Settings")]
+    [SerializeField] GameObject upgradeMenu;
+    [SerializeField] Transform canvas;
+
     private void Start() {
         UpdateStarwberryCount();
         UpdateVolumeDisplay();
+    }
+
+    public void ShowUpgradeMenu()
+    {
+        Instantiate(upgradeMenu, canvas);
     }
 
     public void UpdateStarwberryCount()
