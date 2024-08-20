@@ -99,12 +99,13 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
         {
             //use card
             HandCardPool.instance.useCard(card_id);
+            HandCardPool.instance.displayHandCardArea(false);
         }
         else if (this.transform.position.y <100)
         {
-            HandCardPool.instance.discardCard(card_id);
             trushBin.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
             trushBin_child.DOLocalMove(new Vector3(0, 0, 0), 0.1f);
+            HandCardPool.instance.discardCard(card_id);
         }
 
     }

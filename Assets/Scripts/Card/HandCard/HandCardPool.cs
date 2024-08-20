@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 public class HandCardPool : MonoBehaviour
 {
     public List<Card> TotalCardPool = new List<Card>(); //all cards from my cards
@@ -215,4 +216,17 @@ public class HandCardPool : MonoBehaviour
 
     }
 
+
+    public void displayHandCardArea(bool flag)
+    {
+        Debug.Log("here??");
+        if (flag)
+        {
+            transform.DOLocalMoveY(-9, 0.15f);
+        }
+        else
+        {
+            transform.DOLocalMoveY(-154, 0.15f);
+        }
+    }
 }
