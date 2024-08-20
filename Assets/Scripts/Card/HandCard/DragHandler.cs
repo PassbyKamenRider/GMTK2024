@@ -114,6 +114,8 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (HorizontalCardHolder.instance.selectedCard != null)
+            return;
 
         PointerEnterEvent.Invoke(this);
         isHovering = true;
@@ -121,6 +123,9 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (HorizontalCardHolder.instance.selectedCard != null)
+            return;
+
         PointerExitEvent.Invoke(this);
         isHovering = false;
     }
