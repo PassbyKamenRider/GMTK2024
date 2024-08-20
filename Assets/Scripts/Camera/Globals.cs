@@ -17,5 +17,6 @@ public static class Globals
     public static bool isGenerated;
 
     // Platform status related
-    public static bool isScaling;
+    public static int isUsing = -1; //0: scale; 1:move; 2:build
+    public static float card_val;
 }

@@ -13,20 +13,27 @@ public class ScalablePlatform : MonoBehaviour
     }
 
     private void Update() {
-        if (Globals.isScaling && isHovering)
+        if (Globals.isUsing == 0 && isHovering)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Globals.isScaling = false;
+                Globals.isUsing = -1;
                 sprite.color = normal;
-                FindObjectOfType<VisualCardsHandler>(true).gameObject.SetActive(true);
-                // Scale!
+                transform.localScale = new Vector3((1+Globals.card_val) * transform.localScale.x, (1+Globals.card_val) * transform.localScale.y, transform.localScale.z);
+                HandCardPool.instance.displayHandCardArea(true);
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                Globals.isUsing = -1;
+                sprite.color = normal;
+                transform.localScale = new Vector3((1-Globals.card_val) * transform.localScale.x, (1-Globals.card_val) * transform.localScale.y, transform.localScale.z);
+                HandCardPool.instance.displayHandCardArea(true);
             }
         }
     }
 
     private void OnMouseEnter() {
-        if (Globals.isScaling)
+        if (Globals.isUsing == 0)
         {
             isHovering = true;
             sprite.color = highlight;
@@ -34,7 +41,7 @@ public class ScalablePlatform : MonoBehaviour
     }
 
     private void OnMouseExit() {
-        if (Globals.isScaling)
+        if (Globals.isUsing == 0)
         {
             isHovering = false;
             sprite.color = normal;

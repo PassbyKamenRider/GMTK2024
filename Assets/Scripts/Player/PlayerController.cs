@@ -36,11 +36,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        GetInputs();
-        Move();
-        //PlayAudioWalk();
-        Flip();
-        Jump();
+        if (Globals.isUsing == -1)
+        {
+            GetInputs();
+            Move();
+            //PlayAudioWalk();
+            Flip();
+            Jump();
+        }
     }
 
     private void PlayAudioWalk() {

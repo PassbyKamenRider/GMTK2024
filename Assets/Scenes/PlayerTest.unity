@@ -1171,6 +1171,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1374154930}
     m_Modifications:
+    - target: {fileID: 4814823955492632344, guid: 521138b8a8cca704a9663396b4efa2a7, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8403180682445616026, guid: 521138b8a8cca704a9663396b4efa2a7, type: 3}
       propertyPath: m_Name
       value: HandcardPool
@@ -4193,6 +4197,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1960996024}
   - component: {fileID: 1960996023}
+  - component: {fileID: 1960996026}
+  - component: {fileID: 1960996025}
   m_Layer: 0
   m_Name: block4
   m_TagString: Untagged
@@ -4267,6 +4273,44 @@ Transform:
   m_Father: {fileID: 1686035300}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1960996025
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960996022}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.000002861023, y: -0.3706904}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.4, y: 2.71}
+    newSize: {x: 8.4, y: 2.71}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7.2879276, y: 1.3199097}
+  m_EdgeRadius: 0
+--- !u!114 &1960996026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960996022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59adbc90c8a9c54cb009f83ed63c891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2021185047
 GameObject:
   m_ObjectHideFlags: 0

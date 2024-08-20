@@ -191,17 +191,24 @@ public class HandCardPool : MonoBehaviour
         card.GetComponent<DragHandler>().cardVisual.transform.position = new Vector3(0, 0, 0);
 
         // Get card type and number for use
-        int usedCardType = card.GetComponent<DragHandler>().cardVisual.transform.GetComponent<CardInfo>().cardType;
+        CardInfo i = card.GetComponent<DragHandler>().cardVisual.transform.GetComponent<CardInfo>();
+        int usedCardType = i.cardType;
+        float usedCardVal = i.x_value;
         switch(usedCardType)
         {
             case 0:
-            Globals.isScaling = true;
+            Globals.card_val = usedCardVal * 0.01f;
+            Globals.isUsing = 0;
             break;
 
             case 1:
+            Globals.card_val = usedCardVal;
+            Globals.isUsing = 1;
             break;
 
             case 2:
+            Globals.card_val = usedCardVal;
+            Globals.isUsing = 2;
             break;
 
             default:
