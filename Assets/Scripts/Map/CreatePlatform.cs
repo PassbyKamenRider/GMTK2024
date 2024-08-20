@@ -28,8 +28,8 @@ public class CreatePlatform : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        if (other.transform.tag == "Player")
+    private void OnCollisionExit2D(Collision2D other) {
+        if (other.transform.tag == "Player" && other.transform.position.y > transform.position.y)
         {
             ReduceDuration();
         }
@@ -38,7 +38,7 @@ public class CreatePlatform : MonoBehaviour
     private void ReduceDuration()
     {
         duration -= 1;
-        if (duration == 0)
+        if (duration <= 0)
         {
             gameObject.SetActive(false);
         }
