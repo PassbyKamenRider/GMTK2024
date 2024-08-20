@@ -1505,6 +1505,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RandomCard
       objectReference: {fileID: 0}
+    - target: {fileID: 5459575921947052457, guid: c1e0b10f0e71baa4dbf2e8f703a12039, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1e0b10f0e71baa4dbf2e8f703a12039, type: 3}
 --- !u!1001 &7377661771626019521
@@ -1632,7 +1636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7377661770393316539, guid: 96ba7a97f085a80419344360706b5d32, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7377661770701624823, guid: 96ba7a97f085a80419344360706b5d32, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1678,6 +1682,10 @@ PrefabInstance:
     - target: {fileID: 8403180682445616026, guid: 521138b8a8cca704a9663396b4efa2a7, type: 3}
       propertyPath: m_Name
       value: HandcardPool
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403180682445616027, guid: 521138b8a8cca704a9663396b4efa2a7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8403180682445616036, guid: 521138b8a8cca704a9663396b4efa2a7, type: 3}
       propertyPath: m_Pivot.x

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MyCard_UI : MonoBehaviour
 {
+    public GameObject deckBackground;
     public GameObject CardObj;
     public GameObject[] cardImageArray; //three card types
     public static MyCard_UI instance;
@@ -28,11 +29,13 @@ public class MyCard_UI : MonoBehaviour
         {
             //disable card scroll view
             myCardPoolContent.transform.parent.parent.gameObject.SetActive(false);
+            deckBackground.SetActive(false);
         }
         else
         {
             //enable card scroll view
             myCardPoolContent.transform.parent.parent.gameObject.SetActive(true);
+            deckBackground.SetActive(true);
             clearContent();
             GenerateCard();
         }
