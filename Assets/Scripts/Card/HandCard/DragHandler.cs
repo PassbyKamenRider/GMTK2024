@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-
+using DG.Tweening;
 public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDragHandler, IPointerEnterHandler,IPointerExitHandler
 {
     public int card_id;
@@ -38,6 +38,9 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
     public bool selected;
     public float selectionOffset = 50;
 
+    public float last_mouse_y = 0;
+    Transform trushBin;
+    Transform trushBin_child;
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,7 +48,11 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
         cardVisual = Instantiate(cardVisualPrefab, visualHandler.transform).GetComponent<HandCardVisual>();
         cardVisual.Initialize(this);
     }
-
+    void Start()
+    {
+        trushBin = GameObject.Find("TrushBin").transform;
+        trushBin_child = trushBin.Find("Image");
+    }
     // Update is called once per frame
     void Update()
     {
@@ -61,6 +68,17 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
     public void OnDrag(PointerEventData eventData)
     {
         this.transform.position = (Vector3)eventData.position - offset;
+        if (eventData.position.y < 100 && eventData.position.y <last_mouse_y && trushBin.transform.Find("Image").transform.localPosition.y < 79)
+        {
+            trushBin.localScale = new Vector3(1, 1, 1);
+            trushBin.position = new Vector3(transform.position.x, trushBin.position.y, 0);
+            trushBin_child.DOLocalMove(new Vector3(0, 80, 0),0.15f);
+        }
+        else if (eventData.position.y > 100)
+        {
+            trushBin_child.transform.DOLocalMove(new Vector3(0, 0, 0), 0.15f);
+        }
+        last_mouse_y = eventData.position.y;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -82,10 +100,13 @@ public class DragHandler : MonoBehaviour,IDragHandler, IEndDragHandler,IBeginDra
             //use card
             HandCardPool.instance.useCard(card_id);
         }
-        else if (this.transform.position.y <10)
+        else if (this.transform.position.y <100)
         {
             HandCardPool.instance.discardCard(card_id);
+            trushBin.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+            trushBin_child.DOLocalMove(new Vector3(0, 0, 0), 0.1f);
         }
+
     }
 
 
