@@ -196,8 +196,6 @@ public class HandCardPool : MonoBehaviour
         {
             case 0:
             Globals.isScaling = true;
-            Time.timeScale = 0f;
-            FindObjectOfType<VisualCardsHandler>().gameObject.SetActive(false);
             break;
 
             case 1:
